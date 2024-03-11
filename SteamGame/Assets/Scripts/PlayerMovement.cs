@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
-
+    public Transform usingItem;
 
     void Start()
     {
