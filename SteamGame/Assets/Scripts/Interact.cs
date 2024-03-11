@@ -1,4 +1,4 @@
-using UnityEditor.Search;
+
 using UnityEngine;
 
 public class Interact : MonoBehaviour
@@ -8,10 +8,7 @@ public class Interact : MonoBehaviour
     private Rigidbody rb;
     Camera maincamera;
     private PlayerMovement playermovement;
-
-
-
-
+    public CarAttachments car;
     public float pickUprange;
     public float dropForwardforce, dropUpwardforce;
 
@@ -20,7 +17,7 @@ public class Interact : MonoBehaviour
 
     private void Start()
     {
-
+        
         playermovement = player.GetComponent<PlayerMovement>();
         maincamera = Camera.main;
         coll = GetComponent<BoxCollider>();
@@ -58,7 +55,7 @@ public class Interact : MonoBehaviour
                 {
                     PickupItem();
                 }
-                if (hit.collider.CompareTag("Placable"))
+                if (hit.collider.CompareTag("Placeable"))
                 {
                     Place();
                 }
@@ -69,7 +66,7 @@ public class Interact : MonoBehaviour
     {
 
         gameObject.tag = "Untagged";
-        playermovement.usingItem = gameObject.transform;
+        playermovement.currentUsingItem = gameObject.transform;
         equipped = true;
         slotFull = true;
 
@@ -84,7 +81,7 @@ public class Interact : MonoBehaviour
 
     private void Drop()
     {
-        playermovement.usingItem = null;
+        playermovement.currentUsingItem = null;
         equipped = false;
         slotFull = false;
         transform.SetParent(null);
@@ -95,6 +92,7 @@ public class Interact : MonoBehaviour
         rb.AddTorque(new Vector3(random, random, random) * 10);
         rb.isKinematic = false;
         coll.isTrigger = false;
+        gameObject.tag = "Clickable";
     }
     private void Place()
     {
@@ -103,9 +101,13 @@ public class Interact : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.CompareTag("Placable"))
+            if (hit.collider.CompareTag("Placeable"))
             {
-                gameObject.transform.Translate(gameObject.transform.position);
+                Vector3 targetPosition = hit.transform.GetChild(0).position;
+
+                // Set the position of the currentUsingItem to the target position
+                playermovement.currentUsingItem.position = targetPosition;
+
             }
         }
 
