@@ -1,4 +1,5 @@
 
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Interact : MonoBehaviour
@@ -11,13 +12,14 @@ public class Interact : MonoBehaviour
     public CarAttachments car;
     public float pickUprange;
     public float dropForwardforce, dropUpwardforce;
+  
 
     public bool equipped;
     public static bool slotFull;
 
     private void Start()
     {
-        
+
         playermovement = player.GetComponent<PlayerMovement>();
         maincamera = Camera.main;
         coll = GetComponent<BoxCollider>();
@@ -46,6 +48,7 @@ public class Interact : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Test");
+
             Ray ray = maincamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -57,6 +60,7 @@ public class Interact : MonoBehaviour
                 }
                 if (hit.collider.CompareTag("Placeable"))
                 {
+
                     Place();
                 }
             }
@@ -98,18 +102,32 @@ public class Interact : MonoBehaviour
     {
         Ray ray = maincamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        coll.isTrigger = false;
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.CompareTag("Placeable"))
+            if (hit.collider.CompareTag("Placeable") && equipped)
             {
-                Vector3 targetPosition = hit.transform.GetChild(0).position;
+                
+                Vector3 targetPosition = hit.transform.position;
 
-                // Set the position of the currentUsingItem to the target position
-                playermovement.currentUsingItem.position = targetPosition;
-
+                if (playermovement.currentUsingItem != null)
+                {
+                    
+                    equipped = false;
+                    slotFull = false;
+                    Debug.Log(targetPosition);
+                    coll.enabled = false;
+                    Instantiate(playermovement.currentUsingItem.gameObject, targetPosition, Quaternion.identity, hit.transform);
+                    coll.enabled = true;
+                    Debug.Log(targetPosition);
+                    gameObject.tag = "Clickable";
+                    Destroy(gameObject);
+                    playermovement.currentUsingItem = null;
+                   
+                }
             }
         }
-
     }
 }
