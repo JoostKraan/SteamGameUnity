@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Clickable
   - Placeable
+  - Car
   layers:
   - Default
   - TransparentFX

@@ -1,9 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Transform itemContainer, camera;
+    public Transform player;
+    public float pickUprange;
+    private float dropForwardforce, dropUpwardforce;
+    public bool equipped;
+    public static bool slotFull;
+    public Transform currentItem;
+    public GameObject wheelMesh;
     private float walkingSpeed = 7.5f;
     private float runningSpeed = 11.5f;
     private float jumpSpeed = 8f;
@@ -19,18 +25,28 @@ public class PlayerMovement : MonoBehaviour
     private bool IsCrouching = false;
     public bool canMove = true;
 
+    private CarAttachments car;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
-    public Transform currentUsingItem;
+
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        characterController = GetComponent<CharacterController>();
+        car = GameObject.FindAnyObjectByType<CarAttachments>();
+
+
     }
     void Update()
     {
+        Place();
+        Vector3 distanceToplayer = player.position - transform.position;
+        if (!equipped && distanceToplayer.magnitude <= pickUprange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickupItem();
+
+        if (equipped && Input.GetKeyDown(KeyCode.Q)) Drop();
+
         if (!IsCrouching) //Is currenly NOT crouching
         {
             Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -100,6 +116,100 @@ public class PlayerMovement : MonoBehaviour
             Camera.main.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+    }
+    private void PickupItem()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, pickUprange))
+        {
+            if (hit.collider.gameObject.CompareTag("Clickable"))
+            {
+                Rigidbody itemRb = hit.collider.GetComponent<Rigidbody>();
+                BoxCollider itemCol = hit.collider.GetComponent<BoxCollider>();
+
+
+                Transform item = hit.collider.transform;
+
+                equipped = true;
+                slotFull = true;
+
+                item.SetParent(itemContainer);
+                item.localPosition = Vector3.zero;
+                item.localRotation = Quaternion.Euler(Vector3.zero);
+                item.localScale = Vector3.one;
+
+                itemRb.isKinematic = true;
+                itemCol.isTrigger = true;
+                currentItem = hit.collider.gameObject.transform;
+            }
+        }
+    }
+
+    private void Drop()
+    {
+        if (currentItem != null)
+        {
+            Rigidbody rb = currentItem.GetComponent<Rigidbody>();
+            BoxCollider coll = currentItem.GetComponent<BoxCollider>();
+
+            if (rb != null && coll != null)
+            {
+                equipped = false;
+                slotFull = false;
+                currentItem.SetParent(null);
+                rb.velocity = rb.GetComponent<Rigidbody>().velocity;
+                rb.AddForce(camera.forward * dropForwardforce, ForceMode.Impulse);
+                rb.AddForce(camera.forward * dropUpwardforce, ForceMode.Impulse);
+                float random = Random.Range(-1f, 1f);
+                rb.AddTorque(new Vector3(random, random, random) * 10);
+                rb.isKinematic = false;
+                coll.isTrigger = false;
+                currentItem = null;
+            }
+        }
+
+    }
+    private void Place()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0) && hit.collider.CompareTag("Placeable"))
+        {
+            Vector3 spawnPosition = hit.collider.transform.GetChild(0).position;
+            GameObject newItem = Instantiate(wheelMesh, spawnPosition, Quaternion.identity);
+            newItem.transform.SetParent(hit.collider.transform);
+            newItem.transform.rotation = hit.collider.transform.rotation;
+            BoxCollider newItemcol = newItem.GetComponent<BoxCollider>();
+            Rigidbody newItemRb = newItem.GetComponent<Rigidbody>();
+            if (newItemRb != null)
+            {
+                newItemcol.enabled = false;
+                newItemRb.isKinematic = true;
+                newItemRb.useGravity = false;
+            }
+            if (hit.collider.name == "FrontRightAxel")
+            {
+                car.wFR = newItem.transform;
+            }
+            if (hit.collider.name == "RearRightAxel")
+            {
+                car.wRR = newItem.transform;
+            }
+            if (hit.collider.name == "RearLeftAxel")
+            {
+                car.wRL = newItem.transform;
+            }
+            if (hit.collider.name == "FrontLeftAxel")
+            {
+                car.wFL = newItem.transform;
+            }
+            Destroy(currentItem.gameObject);
+            equipped = false;
+            currentItem = null;
+            slotFull = false;
         }
     }
 }
