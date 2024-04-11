@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public bool equipped;
     public static bool slotFull;
     public Transform currentItem;
-    public GameObject wheelMesh;
+    public GameObject wheelObj;
+    public GameObject boilerObj;
     private float walkingSpeed = 7.5f;
     private float runningSpeed = 11.5f;
     private float jumpSpeed = 8f;
@@ -25,22 +27,23 @@ public class PlayerMovement : MonoBehaviour
     private bool IsCrouching = false;
     public bool canMove = true;
 
-    private CarAttachments car;
+    private CarManager car;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
-
-
+    private Dictionary<string, string> itemPrefabs = new Dictionary<string, string>();
     void Start()
     {
+        itemPrefabs.Add("Tire", "TireSpot");
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
-        car = GameObject.FindAnyObjectByType<CarAttachments>();
-
+        car = GameObject.FindAnyObjectByType<CarManager>();
 
     }
     void Update()
     {
+
         Place();
         Vector3 distanceToplayer = player.position - transform.position;
         if (!equipped && distanceToplayer.magnitude <= pickUprange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickupItem();
@@ -98,17 +101,15 @@ public class PlayerMovement : MonoBehaviour
         {
             IsCrouching = false;
         }
-        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
-        // as an acceleration (ms^-2)
+
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-        // Move the controller
+
         characterController.Move(moveDirection * Time.deltaTime);
 
-        // Player and Camera rotation
+
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
@@ -178,38 +179,49 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0) && hit.collider.CompareTag("Placeable"))
         {
-            Vector3 spawnPosition = hit.collider.transform.GetChild(0).position;
-            GameObject newItem = Instantiate(wheelMesh, spawnPosition, Quaternion.identity);
-            newItem.transform.SetParent(hit.collider.transform);
-            newItem.transform.rotation = hit.collider.transform.rotation;
-            BoxCollider newItemcol = newItem.GetComponent<BoxCollider>();
-            Rigidbody newItemRb = newItem.GetComponent<Rigidbody>();
-            if (newItemRb != null)
+
+
+            
+            Vector3 spawnPosition = hit.collider.transform.parent.position;
+            if (hit.collider.TryGetComponent<CarPart>(out CarPart carPart))
             {
-                newItemcol.enabled = false;
-                newItemRb.isKinematic = true;
-                newItemRb.useGravity = false;
+                Debug.Log("dfdd");
+                if (hit.collider.GetComponent<CarPart>().attachableType == currentItem.GetComponent<CarPart>().partType)
+                {
+
+                    GameObject newItem = Instantiate(currentItem.gameObject, spawnPosition, Quaternion.identity);
+                    newItem.transform.SetParent(hit.collider.transform);
+                    newItem.transform.rotation = hit.collider.transform.rotation;
+                    BoxCollider newItemcol = newItem.GetComponent<BoxCollider>();
+                    Rigidbody newItemRb = newItem.GetComponent<Rigidbody>();
+                    if (newItemRb != null)
+                    {
+                        newItemcol.enabled = false;
+                        newItemRb.isKinematic = true;
+                        newItemRb.useGravity = false;
+                    }
+                    if (hit.collider.name == "FrontRightAxel")
+                    {
+                        car.wFR = newItem.transform;
+                    }
+                    if (hit.collider.name == "RearRightAxel")
+                    {
+                        car.wRR = newItem.transform;
+                    }
+                    if (hit.collider.name == "RearLeftAxel")
+                    {
+                        car.wRL = newItem.transform;
+                    }
+                    if (hit.collider.name == "FrontLeftAxel")
+                    {
+                        car.wFL = newItem.transform;
+                    }
+                    Destroy(currentItem.gameObject);
+                    equipped = false;
+                    currentItem = null;
+                    slotFull = false;
+                }
             }
-            if (hit.collider.name == "FrontRightAxel")
-            {
-                car.wFR = newItem.transform;
-            }
-            if (hit.collider.name == "RearRightAxel")
-            {
-                car.wRR = newItem.transform;
-            }
-            if (hit.collider.name == "RearLeftAxel")
-            {
-                car.wRL = newItem.transform;
-            }
-            if (hit.collider.name == "FrontLeftAxel")
-            {
-                car.wFL = newItem.transform;
-            }
-            Destroy(currentItem.gameObject);
-            equipped = false;
-            currentItem = null;
-            slotFull = false;
         }
     }
 }
