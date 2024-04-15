@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -177,42 +178,37 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0) && hit.collider.CompareTag("Placeable"))
+        if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0))
         {
 
-
-            
-            Vector3 spawnPosition = hit.collider.transform.parent.position;
-            if (hit.collider.TryGetComponent<CarPart>(out CarPart carPart))
+            if (hit.collider.TryGetComponent<CarPart>(out CarPart carPart) && currentItem)
             {
-                Debug.Log("dfdd");
                 if (hit.collider.GetComponent<CarPart>().attachableType == currentItem.GetComponent<CarPart>().partType)
                 {
-
+                    Vector3 spawnPosition = hit.collider.transform.parent.position;
                     GameObject newItem = Instantiate(currentItem.gameObject, spawnPosition, Quaternion.identity);
                     newItem.transform.SetParent(hit.collider.transform);
                     newItem.transform.rotation = hit.collider.transform.rotation;
+                    newItem.transform.localScale = new Vector3(2, 2, 2);
+                    newItem.transform.localRotation = Quaternion.Euler(90, 0, 0);
                     BoxCollider newItemcol = newItem.GetComponent<BoxCollider>();
                     Rigidbody newItemRb = newItem.GetComponent<Rigidbody>();
-                    if (newItemRb != null)
-                    {
-                        newItemcol.enabled = false;
-                        newItemRb.isKinematic = true;
-                        newItemRb.useGravity = false;
-                    }
-                    if (hit.collider.name == "FrontRightAxel")
+                    newItemcol.enabled = false;
+                    newItemRb.isKinematic = true;
+                    newItemRb.useGravity = false;
+                    if (hit.collider.name == "FrontRightAxle")
                     {
                         car.wFR = newItem.transform;
                     }
-                    if (hit.collider.name == "RearRightAxel")
+                    if (hit.collider.name == "RearRightAxle")
                     {
                         car.wRR = newItem.transform;
                     }
-                    if (hit.collider.name == "RearLeftAxel")
+                    if (hit.collider.name == "RearLeftAxle")
                     {
                         car.wRL = newItem.transform;
                     }
-                    if (hit.collider.name == "FrontLeftAxel")
+                    if (hit.collider.name == "FrontLeftAxle")
                     {
                         car.wFL = newItem.transform;
                     }
@@ -223,5 +219,19 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+    public void Interact()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0))
+        {
+            if (hit.collider.CompareTag("Button"))
+            {
+
+            }
+        }
+        
     }
 }

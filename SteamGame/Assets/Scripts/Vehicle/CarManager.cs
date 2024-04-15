@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class CarManager : MonoBehaviour
 {
+    //TO start engine 
+    //Fuel amount has to be at least 75mj. waterHeat is not dependent to start the engine as long as the steam pressure is above 800 kPa.
+
+
     [Header("Stats")]
     public bool canDrive = false;
-    public float fuelAmount;
-    public float heatSourceTemperature;
-    public float waterTemperature;
-    public float steamPressure;
+    public bool engineRunning = false;
+    public float fuelAmount = 0f; //megaJoules
+    public float waterHeat = 0f; //Celcius
+    public float optimalSteampressure = 800;
+    public float currentSteampressure = 0; //kPa
     
     [Header("Wheels Transforms")]
     public Transform wFR;
@@ -37,7 +42,15 @@ public class CarManager : MonoBehaviour
     private float currentTurnangle = 0f;
     private void Update()
     {
-        //if (steamPressure >)
+       if (currentSteampressure >= optimalSteampressure && fuelAmount >= 75)
+        {
+            
+        }
+    }
+    private void StartEngine()
+    {
+        engineRunning = true;
+
     }
     private void FixedUpdate()
     {
@@ -48,6 +61,7 @@ public class CarManager : MonoBehaviour
             if (Input.GetKey(KeyCode.Space))
             {
                 currentBrakeForce = brakeForce;
+                    
             }
             else
             {
