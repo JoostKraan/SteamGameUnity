@@ -15,7 +15,7 @@ public class CarManager : MonoBehaviour
     [SerializeField]private bool engineRunning = false;
     [SerializeField] private float currentSteampressure = 0; //kPa
     [SerializeField] float waterTemp = 0f; //Celcius
-    [HideInInspector] public float fuelValue = 40; //MegaJoules
+    
     public float fuelAmount = 0f; //megaJoules
     
     private float optimalSteampressure = 800;
@@ -49,11 +49,24 @@ public class CarManager : MonoBehaviour
     {
 
     }
+
+    public void InsertFuel(float fuel)
+    {
+        fuelAmount += fuel;
+    }
+
+    public void StartFireBurner(float fuel)
+    {
+        fuel = fuelAmount;
+        
+    }
+
+    
     public void StartIgnition()
     {
-        Debug.Log("Ran method");
         if (currentSteampressure >= optimalSteampressure && fuelAmount >= 75)
         {
+            engineRunning = true;
             Debug.Log("Running");
         }
     }
