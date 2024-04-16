@@ -8,6 +8,8 @@ TagManager:
   - Placeable
   - Car
   - Wheel
+  - StartButton
+  - Burner
   layers:
   - Default
   - TransparentFX

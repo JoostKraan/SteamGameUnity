@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private Dictionary<string, string> itemPrefabs = new Dictionary<string, string>();
+
     void Start()
     {
         itemPrefabs.Add("Tire", "TireSpot");
@@ -42,12 +43,14 @@ public class PlayerMovement : MonoBehaviour
         car = GameObject.FindAnyObjectByType<CarManager>();
 
     }
+
     void Update()
     {
 
         Place();
         Vector3 distanceToplayer = player.position - transform.position;
-        if (!equipped && distanceToplayer.magnitude <= pickUprange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickupItem();
+        if (!equipped && distanceToplayer.magnitude <= pickUprange && Input.GetKeyDown(KeyCode.E) &&
+            !slotFull) PickupItem();
 
         if (equipped && Input.GetKeyDown(KeyCode.Q)) Drop();
 
@@ -69,11 +72,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 moveDirection.y = movementDirectionY;
             }
+
             this.GetComponentInChildren<CapsuleCollider>().height = 1;
             characterController.height = 2f;
             this.GetComponentInChildren<Transform>().localScale = new Vector3(1, 1, 1);
         }
-        else   //IS currenly crouching
+        else //IS currenly crouching
         {
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
@@ -90,14 +94,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 moveDirection.y = movementDirectionY;
             }
+
             this.GetComponentInChildren<CapsuleCollider>().height = crouchHeight;
             characterController.height = crouchHeight * 2;
             this.GetComponent<Transform>().localScale = new Vector3(1, crouchHeight, 1);
         }
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             IsCrouching = true;
         }
+
         if (Input.GetKeyUp(KeyCode.C))
         {
             IsCrouching = false;
@@ -120,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
+
     private void PickupItem()
     {
         RaycastHit hit;
@@ -145,6 +153,11 @@ public class PlayerMovement : MonoBehaviour
                 itemRb.isKinematic = true;
                 itemCol.isTrigger = true;
                 currentItem = hit.collider.gameObject.transform;
+                if (hit.collider.gameObject.name == "Fuel")
+                {
+                    Vector3 fuel = new Vector3(0.5f, 0.5f, 0.5f);
+                    item.localScale = fuel;
+                }
             }
         }
     }
@@ -173,6 +186,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+
     private void Place()
     {
         RaycastHit hit;
@@ -200,18 +214,22 @@ public class PlayerMovement : MonoBehaviour
                     {
                         car.wFR = newItem.transform;
                     }
+
                     if (hit.collider.name == "RearRightAxle")
                     {
                         car.wRR = newItem.transform;
                     }
+
                     if (hit.collider.name == "RearLeftAxle")
                     {
                         car.wRL = newItem.transform;
                     }
+
                     if (hit.collider.name == "FrontLeftAxle")
                     {
                         car.wFL = newItem.transform;
                     }
+
                     Destroy(currentItem.gameObject);
                     equipped = false;
                     currentItem = null;
@@ -220,18 +238,5 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void Interact()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, pickUprange) && Input.GetMouseButtonDown(0))
-        {
-            if (hit.collider.CompareTag("Button"))
-            {
-
-            }
-        }
-        
-    }
 }
