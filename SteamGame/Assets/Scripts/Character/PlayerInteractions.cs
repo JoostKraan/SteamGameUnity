@@ -13,7 +13,6 @@ public class PlayerInteractions : MonoBehaviour
 
     public void Start()
     {
-       
         fuel = FindAnyObjectByType<FuelManager>();
         player = FindAnyObjectByType<PlayerMovement>();
         carManager = FindObjectOfType<CarManager>();
@@ -21,7 +20,6 @@ public class PlayerInteractions : MonoBehaviour
 
     public void Update()
     {
-
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -30,12 +28,8 @@ public class PlayerInteractions : MonoBehaviour
             button = hit.collider.transform.GetComponent<PhysicalButton>();
             if (hit.collider.CompareTag("StartButton"))
             {
-                //button.ChangeColor();
                 carManager.StartIgnition();
             }
-
-
-
         }
 
         if (player.currentItem != null)
@@ -47,33 +41,39 @@ public class PlayerInteractions : MonoBehaviour
                 {
                     if (player.currentItem.name == ("Fuel"))
                     {
+                        FuelManager burner = hit.collider.GetComponent<FuelManager>();
                         FuelManager fuel = player.currentItem.GetComponent<FuelManager>();
+                        
                         carManager.InsertFuel();
+                        
+                        fuel.UpdateFuelStatus();
+                        if (carManager.remainingFuel > 0)
+                        {
+                            fuel.fuelValue = carManager.remainingFuel;
+                        }
+                        burner.UpdateFuelStatus();
                         Destroy(player.currentItem.gameObject);
                         player.equipped = false;
                         PlayerMovement.slotFull = false;
                     }
-                    else
-                    {
-                        Debug.Log("You are not holding any Fuel");
-
-                    }
+                    
                 }
                 if (player.currentItem.name == "WaterContainer")
                 {
-                    FuelManager waterContainer = player.currentItem.GetComponent<FuelManager>();
-                    carManager.InsertWater();
-                    waterContainer.UpdateWaterStatus();
-                    if  (carManager.remainingWater > 0)
+                    if (hit.collider.CompareTag("WaterTank"))
                     {
-                        waterContainer.waterValue = carManager.remainingWater;
-                        return;
+                        FuelManager waterContainer = player.currentItem.GetComponent<FuelManager>();
+                        carManager.InsertWater();
+                        if (carManager.remainingWater > 0)
+                        {
+                            waterContainer.waterValue = carManager.remainingWater;
+                            return;
+                        }
+                        Destroy(player.currentItem.gameObject);
+                        player.equipped = false;
+                        PlayerMovement.slotFull = false;
                     }
-                    Destroy(player.currentItem.gameObject);
-                    player.equipped = false;
-                    PlayerMovement.slotFull = false;
                 }
-
                 if (hit.collider.CompareTag("FireStarter"))
                 {
                     Debug.Log("Burning has started");

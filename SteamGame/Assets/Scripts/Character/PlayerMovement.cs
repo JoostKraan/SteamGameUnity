@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsCrouching = false;
     public bool canMove = true;
-
+    public FuelManager fuelContainer;
     private CarManager car;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hit.collider.gameObject.CompareTag("Clickable"))
             {
+                fuelContainer = hit.collider.GetComponent<FuelManager>();
                 Rigidbody itemRb = hit.collider.GetComponent<Rigidbody>();
                 BoxCollider itemCol = hit.collider.GetComponent<BoxCollider>();
 
@@ -153,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
                 itemRb.isKinematic = true;
                 itemCol.isTrigger = true;
                 currentItem = hit.collider.gameObject.transform;
+
                
             }
         }

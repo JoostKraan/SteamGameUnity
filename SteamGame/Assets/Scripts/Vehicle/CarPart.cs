@@ -13,8 +13,6 @@ public class CarPart : MonoBehaviour
         FireBox,
         Axle,
         None
-       
-
     }
     public PartType attachableType;
 }

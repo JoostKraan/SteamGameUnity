@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2063443591861864105}
   - component: {fileID: 5244559078813821821}
   - component: {fileID: 760996955441564548}
-  - component: {fileID: -3192817577518121899}
   m_Layer: 0
   m_Name: Wheel
   m_TagString: Clickable
@@ -134,24 +133,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-3192817577518121899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7564463734035318830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99634edca86565b4a96a0b7b261787f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  simpleTooltipStyle: {fileID: 11400000, guid: b60656fad1664684d8fb0085c2c6ccbb, type: 2}
-  infoLeft: 'Wheel
-
-
-    Durability'
-  infoRight: '
-
-
-    10'

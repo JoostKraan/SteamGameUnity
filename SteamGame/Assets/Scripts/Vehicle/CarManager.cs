@@ -6,24 +6,30 @@ public class CarManager : MonoBehaviour
 {
     //TO start engine 
     //Fuel amount has to be at least 75mj. waterHeat is not dependent to start the engine as long as the steam pressure is above 800 kPa.
-    
+
     //Insert fuel into furnace > fuel value goes up > over time waterTemp value goes up dependent on amount of fuel > when water reaches 100C steam gets produced and rises in pressure >
     // when the steam pressure hits 800 kPa the car becomes drivable at a relatively slow speed.
 
-    [Header("Stats")]
-    [SerializeField]private bool canDrive = false;
-    [SerializeField]private bool engineRunning = false;
-    [SerializeField] private float currentSteampressure = 0; //kPa
-    [SerializeField] private float waterTemp = 0f; //Celcius
-    [SerializeField] private float waterLevel = 0f; //Litre
-
-    private float remainingFuel;
-    public float fuelAmount = 0f; //megaJoules
-    private float maxfuelAmount;
-    private float maxWaterlevel = 100f;
-    private float optimalSteampressure = 800;
-    [HideInInspector]public float remainingWater = 0f;
+    [Header("Script References")]
+    private FuelManager fuelscript;
     private PlayerMovement player;
+    private FuelManager newfuel;
+
+    [Header("States")]
+    [SerializeField] private bool canDrive = false;
+    [SerializeField] private bool engineRunning = false;
+    [Header("Steam")]
+    [SerializeField]private float optimalSteampressure = 800;
+    [SerializeField] private float currentSteampressure = 0; //kPa
+    [Header("Water")]
+    [SerializeField] private float waterTemp = 0f; //Celcius
+    [SerializeField] public float waterLevel = 0f; //Litre
+    [SerializeField] private float maxWaterlevel = 100f;
+    [HideInInspector] public float remainingWater = 0f;
+    [Header("Fuel")]
+    [SerializeField] private float maxfuelAmount = 100f;
+    [HideInInspector] public float remainingFuel = 0f;
+    public float fuelAmount = 0f; //megaJoules
 
     [Header("Wheels Transforms")]
     public Transform wFR;
@@ -40,30 +46,28 @@ public class CarManager : MonoBehaviour
     [SerializeField] WheelCollider FrontLeft;
     [SerializeField] WheelCollider RearRight;
     [SerializeField] WheelCollider RearLeft;
-    FuelManager fuelscript;
-    
-
-    public float acceleration = 500f;
-    public float brakeForce = 300f;
-    private float maxTurnangle = 35f;
-
-    private float currentAcceleration = 0f;
-    private float currentBrakeForce = 0f;
-    private float currentTurnangle = 0f;
+    [Header("Car Stats")]
+    [SerializeField]private float acceleration = 500f;
+    [SerializeField] private float brakeForce = 300f;
+    [SerializeField] private float maxTurnangle = 35f;
+    [SerializeField] private float currentAcceleration = 0f;
+    [SerializeField] private float currentBrakeForce = 0f;
+    [SerializeField] private float currentTurnangle = 0f;
     private void Start()
     {
-        fuelscript = FindAnyObjectByType<FuelManager>();
         player = FindAnyObjectByType<PlayerMovement>();
     }
 
     public void InsertFuel()
     {
-       
-        if (fuelAmount + fuelscript.waterValue > maxWaterlevel)
+        fuelscript = player.fuelContainer;
+
+        if (fuelAmount + fuelscript.fuelValue > maxfuelAmount)
         {
             remainingFuel = (fuelAmount + fuelscript.fuelValue) - maxfuelAmount;
             fuelAmount = maxfuelAmount;
             Debug.Log("Max capacity reached");
+            
         }
         else
         {
@@ -72,13 +76,17 @@ public class CarManager : MonoBehaviour
 
         if (remainingFuel > 0)
         {
-            Debug.Log("Remaining Fuel: " + remainingFuel + "MJ. Tank cannot hold more than " + maxfuelAmount + "MJ.");
+            Debug.Log("Remaining fuel: " + remainingFuel + "MJ. Tank cannot hold more than " + maxfuelAmount + "MJ.");
+            fuelscript.fuelValue = remainingFuel;
+            
+            
         }
+
     }
 
     public void InsertWater()
     {
-       
+        fuelscript = player.fuelContainer;
         if (waterLevel + fuelscript.waterValue > maxWaterlevel)
         {
             remainingWater = (waterLevel + fuelscript.waterValue) - maxWaterlevel;

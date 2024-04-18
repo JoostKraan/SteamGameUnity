@@ -115,7 +115,6 @@ GameObject:
   - component: {fileID: 6791805609174769332}
   - component: {fileID: 4746262497034893805}
   - component: {fileID: 8550623089342079418}
-  - component: {fileID: 4140803609756490403}
   - component: {fileID: 969387185649071527}
   m_Layer: 0
   m_Name: WaterContainer
@@ -238,21 +237,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4140803609756490403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8247814841474184241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99634edca86565b4a96a0b7b261787f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  simpleTooltipStyle: {fileID: 11400000, guid: f1d1c287ded68be43934c42c517f05d2, type: 2}
-  infoLeft: Water Container
-  infoRight: 30L
 --- !u!114 &969387185649071527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,8 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fuelType: 0
+  reciever: 2
+  waterContainerstatus: {fileID: 0}
+  fuelContainerstatus: {fileID: 0}
   waterStatus: {fileID: 2634236409131170036}
+  fuelStatus: {fileID: 0}
   waterValue: 30
+  fuelValue: 0
 --- !u!1 &8425711170427633350
 GameObject:
   m_ObjectHideFlags: 0
