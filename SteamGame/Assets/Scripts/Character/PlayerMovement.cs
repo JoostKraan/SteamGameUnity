@@ -148,16 +148,12 @@ public class PlayerMovement : MonoBehaviour
                 item.SetParent(itemContainer);
                 item.localPosition = Vector3.zero;
                 item.localRotation = Quaternion.Euler(Vector3.zero);
-                item.localScale = Vector3.one;
+                //item.localScale = Vector3.one;
 
                 itemRb.isKinematic = true;
                 itemCol.isTrigger = true;
                 currentItem = hit.collider.gameObject.transform;
-                if (hit.collider.gameObject.name == "Fuel")
-                {
-                    Vector3 fuel = new Vector3(0.5f, 0.5f, 0.5f);
-                    item.localScale = fuel;
-                }
+               
             }
         }
     }
@@ -203,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
                     GameObject newItem = Instantiate(currentItem.gameObject, spawnPosition, Quaternion.identity);
                     newItem.transform.SetParent(hit.collider.transform);
                     newItem.transform.rotation = hit.collider.transform.rotation;
-                    newItem.transform.localScale = new Vector3(2, 2, 2);
+                    //newItem.transform.localScale = new Vector3(2, 2, 2);
                     newItem.transform.localRotation = Quaternion.Euler(90, 0, 0);
                     BoxCollider newItemcol = newItem.GetComponent<BoxCollider>();
                     Rigidbody newItemRb = newItem.GetComponent<Rigidbody>();

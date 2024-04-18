@@ -11,6 +11,7 @@ TagManager:
   - StartButton
   - Burner
   - FireStarter
+  - WaterTank
   layers:
   - Default
   - TransparentFX

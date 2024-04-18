@@ -14,12 +14,16 @@ public class CarManager : MonoBehaviour
     [SerializeField]private bool canDrive = false;
     [SerializeField]private bool engineRunning = false;
     [SerializeField] private float currentSteampressure = 0; //kPa
-    [SerializeField] float waterTemp = 0f; //Celcius
-    
+    [SerializeField] private float waterTemp = 0f; //Celcius
+    [SerializeField] private float waterLevel = 0f; //Litre
+
+    private float remainingFuel;
     public float fuelAmount = 0f; //megaJoules
-    
+    private float maxfuelAmount;
+    private float maxWaterlevel = 100f;
     private float optimalSteampressure = 800;
-    
+    [HideInInspector]public float remainingWater = 0f;
+    private PlayerMovement player;
 
     [Header("Wheels Transforms")]
     public Transform wFR;
@@ -36,6 +40,7 @@ public class CarManager : MonoBehaviour
     [SerializeField] WheelCollider FrontLeft;
     [SerializeField] WheelCollider RearRight;
     [SerializeField] WheelCollider RearLeft;
+    FuelManager fuelscript;
     
 
     public float acceleration = 500f;
@@ -45,20 +50,56 @@ public class CarManager : MonoBehaviour
     private float currentAcceleration = 0f;
     private float currentBrakeForce = 0f;
     private float currentTurnangle = 0f;
-    private void Update()
+    private void Start()
     {
-
+        fuelscript = FindAnyObjectByType<FuelManager>();
+        player = FindAnyObjectByType<PlayerMovement>();
     }
 
-    public void InsertFuel(float fuel)
+    public void InsertFuel()
     {
-        fuelAmount += fuel;
+       
+        if (fuelAmount + fuelscript.waterValue > maxWaterlevel)
+        {
+            remainingFuel = (fuelAmount + fuelscript.fuelValue) - maxfuelAmount;
+            fuelAmount = maxfuelAmount;
+            Debug.Log("Max capacity reached");
+        }
+        else
+        {
+            fuelAmount += fuelscript.fuelValue;
+        }
+
+        if (remainingFuel > 0)
+        {
+            Debug.Log("Remaining Fuel: " + remainingFuel + "MJ. Tank cannot hold more than " + maxfuelAmount + "MJ.");
+        }
     }
 
-    public void StartFireBurner(float fuel)
+    public void InsertWater()
     {
-        fuel = fuelAmount;
+       
+        if (waterLevel + fuelscript.waterValue > maxWaterlevel)
+        {
+            remainingWater = (waterLevel + fuelscript.waterValue) - maxWaterlevel;
+            waterLevel = maxWaterlevel;
+            Debug.Log("Max capacity reached");
+        }
+        else
+        {
+            waterLevel += fuelscript.waterValue;
+        }
+
+        if (remainingWater > 0)
+        {
+            Debug.Log("Remaining water: " + remainingWater + "L. Tank cannot hold more than " + maxWaterlevel + "L.");
+        }
+    }
+
+    public void StartFireBurner()
+    {
         
+
     }
 
     

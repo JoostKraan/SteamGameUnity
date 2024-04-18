@@ -8,11 +8,13 @@ public class PlayerInteractions : MonoBehaviour
     private CarManager carManager;
     private PlayerMovement player;
     private PhysicalButton button;
-    private Fuel fuel;
+    private FuelManager fuel;
+   
 
     public void Start()
     {
-        fuel = FindAnyObjectByType<Fuel>();
+       
+        fuel = FindAnyObjectByType<FuelManager>();
         player = FindAnyObjectByType<PlayerMovement>();
         carManager = FindObjectOfType<CarManager>();
     }
@@ -45,8 +47,8 @@ public class PlayerInteractions : MonoBehaviour
                 {
                     if (player.currentItem.name == ("Fuel"))
                     {
-                        Fuel fuel = player.currentItem.GetComponent<Fuel>();
-                        carManager.InsertFuel(fuel.fuelValue);
+                        FuelManager fuel = player.currentItem.GetComponent<FuelManager>();
+                        carManager.InsertFuel();
                         Destroy(player.currentItem.gameObject);
                         player.equipped = false;
                         PlayerMovement.slotFull = false;
@@ -56,6 +58,20 @@ public class PlayerInteractions : MonoBehaviour
                         Debug.Log("You are not holding any Fuel");
 
                     }
+                }
+                if (player.currentItem.name == "WaterContainer")
+                {
+                    FuelManager waterContainer = player.currentItem.GetComponent<FuelManager>();
+                    carManager.InsertWater();
+                    waterContainer.UpdateWaterStatus();
+                    if  (carManager.remainingWater > 0)
+                    {
+                        waterContainer.waterValue = carManager.remainingWater;
+                        return;
+                    }
+                    Destroy(player.currentItem.gameObject);
+                    player.equipped = false;
+                    PlayerMovement.slotFull = false;
                 }
 
                 if (hit.collider.CompareTag("FireStarter"))
