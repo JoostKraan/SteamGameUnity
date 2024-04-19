@@ -13,7 +13,10 @@ public class CarManager : MonoBehaviour
     [Header("Script References")]
     private FuelManager fuelscript;
     private PlayerMovement player;
-    private FuelManager newfuel;
+    private FuelManager Burner;
+    private FuelManager Boiler;
+    private FuelManager WaterTank;
+
 
     [Header("States")]
     [SerializeField] private bool canDrive = false;
@@ -22,14 +25,19 @@ public class CarManager : MonoBehaviour
     [SerializeField]private float optimalSteampressure = 800;
     [SerializeField] private float currentSteampressure = 0; //kPa
     [Header("Water")]
-    [SerializeField] private float waterTemp = 0f; //Celcius
+    [SerializeField]public float heatRate = 0.5f;
+    [SerializeField]public float burnRate = 1;
+    [SerializeField] public float maxWatertemp = 100; //Celcius
+    [SerializeField] public float waterTemp = 0f; //Celcius
     [SerializeField] public float waterLevel = 0f; //Litre
-    [SerializeField] private float maxWaterlevel = 100f;
+    [SerializeField] private float maxWaterlevel = 300f;
+    [SerializeField] private float waterBoilinglevel = 100f;
     [HideInInspector] public float remainingWater = 0f;
     [Header("Fuel")]
+    [SerializeField] public bool isHeating = false;
     [SerializeField] private float maxfuelAmount = 100f;
+    [SerializeField] public float fuelAmount = 0f; //megaJoules
     [HideInInspector] public float remainingFuel = 0f;
-    public float fuelAmount = 0f; //megaJoules
 
     [Header("Wheels Transforms")]
     public Transform wFR;
@@ -37,9 +45,9 @@ public class CarManager : MonoBehaviour
     public Transform wRR;
     public Transform wRL;
     [Header("Parts")]
-    public Transform boiler;
-    public Transform engine;
-    public Transform tank;
+    public Transform boilerT;
+    public Transform engineT;
+    public Transform tankT;
 
     [Header("Wheels Colliders")]
     [SerializeField] WheelCollider FrontRight;
@@ -55,9 +63,13 @@ public class CarManager : MonoBehaviour
     [SerializeField] private float currentTurnangle = 0f;
     private void Start()
     {
+        Burner = GameObject.Find("Burner").GetComponent<FuelManager>();
+        Boiler = GameObject.Find("Boiler").GetComponent<FuelManager>();
+        Debug.Log(Boiler);
+        WaterTank = GameObject.Find("WaterTank").GetComponent<FuelManager>();
+        
         player = FindAnyObjectByType<PlayerMovement>();
     }
-
     public void InsertFuel()
     {
         fuelscript = player.fuelContainer;
@@ -67,7 +79,6 @@ public class CarManager : MonoBehaviour
             remainingFuel = (fuelAmount + fuelscript.fuelValue) - maxfuelAmount;
             fuelAmount = maxfuelAmount;
             Debug.Log("Max capacity reached");
-            
         }
         else
         {
@@ -78,11 +89,49 @@ public class CarManager : MonoBehaviour
         {
             Debug.Log("Remaining fuel: " + remainingFuel + "MJ. Tank cannot hold more than " + maxfuelAmount + "MJ.");
             fuelscript.fuelValue = remainingFuel;
-            
-            
+        }
+    }
+
+    public IEnumerator HeatWater()
+    {
+        while (isHeating && fuelAmount > 0 && waterLevel > 0)
+        {
+            // Burn fuel
+            fuelAmount -= Time.deltaTime * burnRate; // Adjust burn rate as needed
+
+            // Convert water level to water heat
+            float waterHeatIncrease = Time.deltaTime * heatRate; // Adjust heat rate as needed
+
+            waterTemp += waterHeatIncrease;
+           if (waterTemp >= waterBoilinglevel)
+            {
+                waterLevel -= waterHeatIncrease;
+            }
+            waterLevel -= waterHeatIncrease;
+            // Update UI
+            Burner.UpdateFuelStatus();
+            WaterTank.UpdateWaterStatus();
+            if (Boiler == null)
+            {
+                print("cov");
+            }
+            Boiler.UpdateBoilerStatus();
+
+            yield return null; // Wait for the next frame
         }
 
+        // If fuel or water runs out, stop heating
+        if (fuelAmount < 0)
+        {
+            fuelAmount = 0;
+        }
+
+        isHeating = false;
+
+
     }
+
+
 
     public void InsertWater()
     {
@@ -106,8 +155,11 @@ public class CarManager : MonoBehaviour
 
     public void StartFireBurner()
     {
+        isHeating = true;
+        StartCoroutine(HeatWater());
         
-
+        
+       
     }
 
     

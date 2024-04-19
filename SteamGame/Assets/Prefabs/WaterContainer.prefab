@@ -249,12 +249,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelType: 0
-  reciever: 2
-  waterContainerstatus: {fileID: 0}
+  fuelType: 4
+  waterContainerstatus: {fileID: 2634236409131170036}
   fuelContainerstatus: {fileID: 0}
-  waterStatus: {fileID: 2634236409131170036}
+  waterStatus: {fileID: 0}
   fuelStatus: {fileID: 0}
+  boilerTempstatus: {fileID: 0}
   waterValue: 30
   fuelValue: 0
 --- !u!1 &8425711170427633350

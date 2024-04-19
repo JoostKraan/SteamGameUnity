@@ -505,6 +505,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 655612023}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &884695638 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 831461365673817514, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3760128379754624841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &905734268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -580,6 +592,32 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 493028766}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &916859088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8236655178037971830, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3760128379754624841}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &916859094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916859088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelType: 2
+  waterContainerstatus: {fileID: 0}
+  fuelContainerstatus: {fileID: 0}
+  waterStatus: {fileID: 0}
+  fuelStatus: {fileID: 0}
+  boilerTempstatus: {fileID: 884695638}
+  waterValue: 30
+  fuelValue: 40
 --- !u!4 &961746216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6375587167857916418, guid: d2105a42a16ed934192fe13919d27258,
@@ -1491,6 +1529,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2026416522 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 449152053737059001, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3760128379754624841}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2026416527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026416522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelType: 0
+  waterContainerstatus: {fileID: 0}
+  fuelContainerstatus: {fileID: 0}
+  waterStatus: {fileID: 3760128379754624842}
+  fuelStatus: {fileID: 0}
+  boilerTempstatus: {fileID: 0}
+  waterValue: 0
+  fuelValue: 0
 --- !u!1001 &496419985049180855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1502,7 +1566,12 @@ PrefabInstance:
     - target: {fileID: 1879040847004123696, guid: f0d1f65ff865c064b9579837c0d78d4f,
         type: 3}
       propertyPath: m_Name
-      value: Boiler
+      value: Boilerfd
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879040847004123696, guid: f0d1f65ff865c064b9579837c0d78d4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5135163023197355698, guid: f0d1f65ff865c064b9579837c0d78d4f,
         type: 3}
@@ -1676,25 +1745,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1322889101004538104, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    - target: {fileID: 831461365673817514, guid: a83fc01e0b43c0c4e8330d893bd03e09,
         type: 3}
-      propertyPath: fuelType
-      value: 2
+      propertyPath: m_text
+      value: "0.00 \xB0C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185886292197213935, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: m_Name
+      value: BoilerText
       objectReference: {fileID: 0}
     - target: {fileID: 1322889101004538104, guid: a83fc01e0b43c0c4e8330d893bd03e09,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: fuelType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1874094341522599652, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: m_TagString
+      value: FireStarter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379948338986147632, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.296
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398538423629895867, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: burnRate
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398538423629895867, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: heatRate
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3692645996696087258, guid: a83fc01e0b43c0c4e8330d893bd03e09,
         type: 3}
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
-    - target: {fileID: 4663178084054013604, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    - target: {fileID: 4396149425272409339, guid: a83fc01e0b43c0c4e8330d893bd03e09,
         type: 3}
-      propertyPath: m_text
-      value: 1111111
+      propertyPath: m_SizeDelta.x
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164078460294815634, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 868
       objectReference: {fileID: 0}
     - target: {fileID: 8358641729969759383, guid: a83fc01e0b43c0c4e8330d893bd03e09,
         type: 3}
@@ -1746,11 +1845,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9010908882254745457, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      propertyPath: m_TagString
+      value: StartButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8236655178037971830, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 916859094}
+    - targetCorrespondingSourceObject: {fileID: 449152053737059001, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2026416527}
   m_SourcePrefab: {fileID: 100100000, guid: a83fc01e0b43c0c4e8330d893bd03e09, type: 3}
+--- !u!114 &3760128379754624842 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6223366461184084960, guid: a83fc01e0b43c0c4e8330d893bd03e09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3760128379754624841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6033740051710295336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1759,6 +1883,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 969387185649071527, guid: 18ac43ba063c8d2478d2bcb724b10393,
+        type: 3}
+      propertyPath: waterStatus
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8247814841474184241, guid: 18ac43ba063c8d2478d2bcb724b10393,
         type: 3}
       propertyPath: m_Name

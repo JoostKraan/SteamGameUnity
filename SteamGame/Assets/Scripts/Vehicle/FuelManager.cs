@@ -6,17 +6,15 @@ using UnityEngine;
 public class FuelManager : MonoBehaviour
 {
     public FuelType fuelType;
+    private IEnumerator coroutine;
     public enum FuelType
     {
-        water,
-        fuel,
-        none
-    }
-    public Reciever reciever;
-    public enum Reciever
-    {
-        burner,
-        watertank,
+       WaterTank,
+        FuelTank,
+        Boiler,
+        Burner,
+        WaterContainer,
+        FuelContainer,
         none
     }
     private CarManager carManager;
@@ -25,70 +23,81 @@ public class FuelManager : MonoBehaviour
     public TextMeshProUGUI fuelContainerstatus;
     public TextMeshProUGUI waterStatus;
     public TextMeshProUGUI fuelStatus;
+    public TextMeshProUGUI boilerTempstatus;
     public  float waterValue = 30f;
     public float fuelValue = 40f;
+   
 
     public void Start()
     {
+
         carManager = FindAnyObjectByType<CarManager>();
         UpdateFuelStatus();
-    }
+        UpdateWaterStatus();
+        UpdateFuelContainerStatus();
+        UpdateWaterContainerStatus();
 
-    public void UpdateFuelType()
-    {
-            if (fuelType == FuelType.water)
-            {
-            Debug.Log("test");
-                UpdateWaterContainerStatus();
-            }        
-            if (fuelType == FuelType.fuel)
-            {
-                Debug.Log("test");
-            UpdateFuelContainerStatus();
-            }
-            if (reciever == Reciever.burner)
-            {
-                Debug.Log("test");
-            UpdateFuelStatus();
-            }
-            if (reciever == Reciever.watertank)
-            {
-                Debug.Log("test");
-            UpdateWaterStatus();
-            }
-        
-
-        
     }
+    
+
+    
+
+
+
+    //public void UpdateFuelType()
+    //{
+    //        if (fuelType == FuelType.water)
+    //        {
+    //        Debug.Log("test");
+    //            UpdateWaterContainerStatus();
+    //        }        
+    //        if (fuelType == FuelType.fuel)
+    //        {
+    //            Debug.Log("test");
+    //        UpdateFuelContainerStatus();
+    //        }
+    //        if (reciever == Reciever.burner)
+    //        {
+    //            Debug.Log("test");
+    //        UpdateFuelStatus();
+    //        }
+    //        if (reciever == Reciever.watertank)
+    //        {
+    //            Debug.Log("test");
+    //        UpdateWaterStatus();
+    //        }
+
+
+
+    //}
 
     public void UpdateWaterContainerStatus()
      {
         if (waterContainerstatus != null)
         waterContainerstatus.text = "Water: " + waterValue.ToString("F1") + "L";
-        
-         
      }
     public void UpdateFuelContainerStatus()
     {
         if (fuelContainerstatus != null)
             fuelContainerstatus.text = "Fuel: " + fuelValue.ToString("F1") + "MJ";
-        
-        
     }
     public void UpdateWaterStatus()
     {
         if (waterStatus != null)
-            waterStatus.text = "Water: " + carManager.waterLevel.ToString("F1") + "L";
-        
-      
+            waterStatus.text = "Water: " + carManager.waterLevel.ToString("F1") + "L";  
     }
     public void UpdateFuelStatus()
     {
         if (fuelStatus != null)
-        {
             fuelStatus.text = "Fuel " + carManager.fuelAmount.ToString("F1") + " MJ";
+    }
+
+    public void UpdateBoilerStatus()
+    {
+        if(boilerTempstatus != null)
+        {
+            boilerTempstatus.text = "Temperature \n" + carManager.waterTemp.ToString("F1") + " °C";
         }
-           
     }
 
 

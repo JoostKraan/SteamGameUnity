@@ -139,22 +139,17 @@ public class PlayerMovement : MonoBehaviour
                 fuelContainer = hit.collider.GetComponent<FuelManager>();
                 Rigidbody itemRb = hit.collider.GetComponent<Rigidbody>();
                 BoxCollider itemCol = hit.collider.GetComponent<BoxCollider>();
-
-
                 Transform item = hit.collider.transform;
-
                 equipped = true;
                 slotFull = true;
-
                 item.SetParent(itemContainer);
                 item.localPosition = Vector3.zero;
                 item.localRotation = Quaternion.Euler(Vector3.zero);
-                //item.localScale = Vector3.one;
 
                 itemRb.isKinematic = true;
                 itemCol.isTrigger = true;
                 currentItem = hit.collider.gameObject.transform;
-
+                
                
             }
         }
