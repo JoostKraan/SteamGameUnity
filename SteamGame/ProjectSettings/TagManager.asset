@@ -12,11 +12,12 @@ TagManager:
   - Burner
   - FireStarter
   - WaterTank
+  - Seat
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Carpart
   - Water
   - UI
   - 

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8678450780661948172}
   - component: {fileID: 4262049733624805572}
   - component: {fileID: 4296783380473625791}
-  m_Layer: 0
+  - component: {fileID: 5529924782019898237}
+  m_Layer: 3
   m_Name: WaterTank
   m_TagString: WaterTank
   m_Icon: {fileID: 0}
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 449152053737059001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0.669, z: -0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -92,6 +93,131 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449152053737059001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5529924782019898237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449152053737059001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelType: 0
+  waterContainerstatus: {fileID: 0}
+  fuelContainerstatus: {fileID: 0}
+  waterStatus: {fileID: 6223366461184084960}
+  fuelStatus: {fileID: 0}
+  boilerTempstatus: {fileID: 0}
+  waterValue: 0
+  fuelValue: 0
+--- !u!1 &886258702073334466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3586891018476032038}
+  - component: {fileID: 7247820570837979170}
+  - component: {fileID: 1174706553427659757}
+  - component: {fileID: 4596167132010044028}
+  m_Layer: 3
+  m_Name: Seat
+  m_TagString: Seat
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3586891018476032038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886258702073334466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.37, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8358641729969759383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7247820570837979170
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886258702073334466}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1174706553427659757
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886258702073334466}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4596167132010044028
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886258702073334466}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -287,7 +413,7 @@ GameObject:
   - component: {fileID: 3221570369785951913}
   - component: {fileID: 7686120999094668482}
   m_Layer: 0
-  m_Name: Boiler
+  m_Name: BoilerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,12 +654,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelType: 2
-  reciever: 0
+  fuelType: 3
   waterContainerstatus: {fileID: 0}
   fuelContainerstatus: {fileID: 0}
   waterStatus: {fileID: 0}
   fuelStatus: {fileID: 4663178084054013604}
+  boilerTempstatus: {fileID: 0}
   waterValue: 0
   fuelValue: 0
 --- !u!1 &1427892417375417179
@@ -562,7 +688,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427892417375417179}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 749}
+  m_LocalPosition: {x: 0, y: 0, z: 868}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -687,9 +813,9 @@ GameObject:
   - component: {fileID: 6065555255847549020}
   - component: {fileID: 6683059222634899453}
   - component: {fileID: 6912931131309367429}
-  m_Layer: 0
-  m_Name: EngineStarterButton
-  m_TagString: StartButton
+  m_Layer: 3
+  m_Name: BurnerStartButton
+  m_TagString: FireStarter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -703,7 +829,7 @@ Transform:
   m_GameObject: {fileID: 1874094341522599652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.62, y: 0.349, z: -3.392}
+  m_LocalPosition: {x: -0.296, y: 0.349, z: -3.392}
   m_LocalScale: {x: 0.28405, y: 0.28405, z: 0.28405}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -848,7 +974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8523505499644958556
 Transform:
   m_ObjectHideFlags: 0
@@ -1006,7 +1132,7 @@ Transform:
   m_GameObject: {fileID: 2303837165144281111}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.891, y: 0.152, z: 2.8}
+  m_LocalPosition: {x: 1.891, y: -0.07999988, z: 2.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1021,7 +1147,7 @@ WheelCollider:
   m_GameObject: {fileID: 2303837165144281111}
   serializedVersion: 2
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.6
   m_SuspensionSpring:
     spring: 35000
     damper: 4500
@@ -1047,7 +1173,7 @@ WheelCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
@@ -1182,7 +1308,7 @@ Transform:
   m_GameObject: {fileID: 3263048671216122406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.891, y: 0.152, z: -2.996}
+  m_LocalPosition: {x: -1.891, y: -0.08, z: -2.996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1197,7 +1323,7 @@ WheelCollider:
   m_GameObject: {fileID: 3263048671216122406}
   serializedVersion: 2
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.6
   m_SuspensionSpring:
     spring: 35000
     damper: 4500
@@ -1223,7 +1349,7 @@ WheelCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
@@ -1239,14 +1365,13 @@ GameObject:
   - component: {fileID: 5453856631025077856}
   - component: {fileID: 4699689379090406459}
   - component: {fileID: 3398538423629895867}
-  - component: {fileID: 2590096234252841804}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8358641729969759383
 Transform:
   m_ObjectHideFlags: 0
@@ -1271,6 +1396,9 @@ Transform:
   - {fileID: 4680349968545491669}
   - {fileID: 2379948338986147632}
   - {fileID: 6064138413339856073}
+  - {fileID: 3586891018476032038}
+  - {fileID: 6183264469154358713}
+  - {fileID: 6456823667897436365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5453856631025077856
@@ -1326,22 +1454,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canDrive: 0
   engineRunning: 0
+  isHeating: 0
   optimalSteampressure: 800
   currentSteampressure: 0
   waterTemp: 0
   waterLevel: 0
-  maxWaterlevel: 100
+  waterBoilinglevel: 100
   remainingWater: 0
+  cooldownRate: 0.2
+  burnRate: 0.05
   maxfuelAmount: 100
-  remainingFuel: 0
   fuelAmount: 0
+  remainingFuel: 0
   wFR: {fileID: 0}
   wFL: {fileID: 0}
   wRR: {fileID: 0}
   wRL: {fileID: 0}
-  boiler: {fileID: 0}
-  engine: {fileID: 0}
-  tank: {fileID: 0}
+  seatingPos: {fileID: 0}
+  exitPos: {fileID: 0}
+  boilerT: {fileID: 0}
+  engineT: {fileID: 0}
+  tankT: {fileID: 0}
   FrontRight: {fileID: 7786864339674734177}
   FrontLeft: {fileID: 5059359268080362569}
   RearRight: {fileID: 4628651643051302431}
@@ -1352,27 +1485,6 @@ MonoBehaviour:
   currentAcceleration: 0
   currentBrakeForce: 0
   currentTurnangle: 0
---- !u!65 &2590096234252841804
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3692645996696087258}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3891165084559940306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2732160768069970531
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,7 +1821,7 @@ GameObject:
   - component: {fileID: 6689980226399502663}
   - component: {fileID: 219753078840584625}
   m_Layer: 0
-  m_Name: Start Burner
+  m_Name: Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1831,6 +1943,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5077280680967762691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6456823667897436365}
+  m_Layer: 0
+  m_Name: ExitPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6456823667897436365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5077280680967762691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.93, y: 1.064, z: 1.526}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8358641729969759383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5311157158601304745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,7 +1993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7115094379550137344
 Transform:
   m_ObjectHideFlags: 0
@@ -2100,7 +2243,7 @@ GameObject:
   - component: {fileID: 4399840733319502391}
   - component: {fileID: 222651832373492227}
   m_Layer: 0
-  m_Name: Start Engine
+  m_Name: Start Burner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2222,6 +2365,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6113034589588134790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6183264469154358713}
+  m_Layer: 0
+  m_Name: SeatingPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6183264469154358713
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6113034589588134790}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.788, z: 1.6000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8358641729969759383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6195641917123629189
 GameObject:
   m_ObjectHideFlags: 0
@@ -2248,7 +2422,7 @@ Transform:
   m_GameObject: {fileID: 6195641917123629189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.891, y: 0.152, z: -2.996}
+  m_LocalPosition: {x: 1.891, y: -0.07999988, z: -2.996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2263,7 +2437,7 @@ WheelCollider:
   m_GameObject: {fileID: 6195641917123629189}
   serializedVersion: 2
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.6
   m_SuspensionSpring:
     spring: 35000
     damper: 4500
@@ -2289,7 +2463,7 @@ WheelCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
@@ -2376,7 +2550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5611136777948213018
 Transform:
   m_ObjectHideFlags: 0
@@ -2635,7 +2809,7 @@ GameObject:
   - component: {fileID: 4396149425272409339}
   - component: {fileID: 4892123436881563932}
   - component: {fileID: 831461365673817514}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WaterTankStatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2659,7 +2833,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 621, y: -108.3}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4892123436881563932
 CanvasRenderer:
@@ -2689,7 +2863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "100 C\xB0"
+  m_text: "0.00 \xB0C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2951,7 +3125,7 @@ Transform:
   m_GameObject: {fileID: 8121875720304015130}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.891, y: 0.152, z: 2.8}
+  m_LocalPosition: {x: -1.891, y: -0.07999988, z: 2.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2966,7 +3140,7 @@ WheelCollider:
   m_GameObject: {fileID: 8121875720304015130}
   serializedVersion: 2
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.6
   m_SuspensionSpring:
     spring: 35000
     damper: 4500
@@ -2992,7 +3166,7 @@ WheelCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
@@ -3009,6 +3183,7 @@ GameObject:
   - component: {fileID: 8119059961170895827}
   - component: {fileID: 113092518411494465}
   - component: {fileID: 5693202499107966218}
+  - component: {fileID: 3386426757431418405}
   m_Layer: 0
   m_Name: Boiler
   m_TagString: Untagged
@@ -3117,6 +3292,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partType: 5
   attachableType: 0
+--- !u!114 &3386426757431418405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8236655178037971830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04928b914967a5449e394155ee3c22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelType: 2
+  waterContainerstatus: {fileID: 0}
+  fuelContainerstatus: {fileID: 0}
+  waterStatus: {fileID: 0}
+  fuelStatus: {fileID: 0}
+  boilerTempstatus: {fileID: 831461365673817514}
+  waterValue: 30
+  fuelValue: 40
 --- !u!1 &8534484185813481306
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,10 +3459,9 @@ GameObject:
   - component: {fileID: 3032652848518508093}
   - component: {fileID: 919742997516264893}
   - component: {fileID: 17074080361908917}
-  - component: {fileID: 1057893501865629997}
   m_Layer: 0
-  m_Name: FireStarterButton
-  m_TagString: Untagged
+  m_Name: EngineStartButton
+  m_TagString: StartButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3371,27 +3565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6305bbd02da3c64a943540d2c357f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1057893501865629997
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010908882254745457}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9036164696641936131
 GameObject:
   m_ObjectHideFlags: 0

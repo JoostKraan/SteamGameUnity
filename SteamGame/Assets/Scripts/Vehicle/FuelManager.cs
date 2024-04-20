@@ -38,40 +38,7 @@ public class FuelManager : MonoBehaviour
         UpdateWaterContainerStatus();
 
     }
-    
-
-    
-
-
-
-    //public void UpdateFuelType()
-    //{
-    //        if (fuelType == FuelType.water)
-    //        {
-    //        Debug.Log("test");
-    //            UpdateWaterContainerStatus();
-    //        }        
-    //        if (fuelType == FuelType.fuel)
-    //        {
-    //            Debug.Log("test");
-    //        UpdateFuelContainerStatus();
-    //        }
-    //        if (reciever == Reciever.burner)
-    //        {
-    //            Debug.Log("test");
-    //        UpdateFuelStatus();
-    //        }
-    //        if (reciever == Reciever.watertank)
-    //        {
-    //            Debug.Log("test");
-    //        UpdateWaterStatus();
-    //        }
-
-
-
-    //}
-
-    public void UpdateWaterContainerStatus()
+        public void UpdateWaterContainerStatus()
      {
         if (waterContainerstatus != null)
         waterContainerstatus.text = "Water: " + waterValue.ToString("F1") + "L";
