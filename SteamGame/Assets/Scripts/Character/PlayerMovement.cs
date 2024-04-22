@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canMoveCamera = true;
     public FuelManager fuelContainer;
     private CarManager car;
-    private CharacterController characterController;
+    [HideInInspector]public CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private Dictionary<string, string> itemPrefabs = new Dictionary<string, string>();
 
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
-        car = FindObjectOfType<CarManager>(); // Changed from GameObject.FindAnyObjectByType<CarManager>()
+        car = FindObjectOfType<CarManager>(); 
     }
 
     void Update()

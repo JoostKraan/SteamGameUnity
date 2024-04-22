@@ -23,17 +23,20 @@ public class CarManager : MonoBehaviour
     [SerializeField] public bool canDrive = false;
     [SerializeField] private bool engineRunning = false;
     [SerializeField] public bool isHeating = false; //if the burner is burning fuel and generating heat for the boiler
+    [SerializeField] public bool producingSteam = false;
     [Header("Steam")]
-    [SerializeField]private float optimalSteampressure = 800; //kPa
+    private float maxSteampressure = 1500f;
+    public float steamProductionrate = 0.003f;
+    [SerializeField] private float optimalSteampressure = 800; //
     [SerializeField] private float currentSteampressure = 0; //kPa
+
     [Header("Water")]
-    
     [SerializeField] public float waterTemp = 0f; //Celcius
     [SerializeField] public float waterLevel = 0f; //current water level
     [SerializeField] private float waterBoilinglevel = 100f; // at this level steam is produced
     [HideInInspector] public float remainingWater = 0f; //temporary value for calculating remaining water when container has more that the max storage
-    private float currentWaterLerpSpeed = 0f; 
-    private float maxWaterLerpSpeed = 68; 
+    private float currentWaterLerpSpeed = 0f;
+    private float maxWaterLerpSpeed = 35f;
     private float lerpSpeedIncrement = 2;
     private float waterConsumption = 0.02f;
     private float heatRate = 10f;
@@ -41,7 +44,7 @@ public class CarManager : MonoBehaviour
     public float cooldownRate = 0.2f;
 
     [Header("Fuel")]
-    
+
     [SerializeField] public float burnRate = 1;
     [SerializeField] private float maxfuelAmount = 100f;
     [SerializeField] public float fuelAmount = 0f; //megaJoules
@@ -65,7 +68,7 @@ public class CarManager : MonoBehaviour
     [SerializeField] WheelCollider RearRight;
     [SerializeField] WheelCollider RearLeft;
     [Header("Car Stats")]
-    [SerializeField]private float acceleration = 500f;
+    [SerializeField] private float acceleration = 500f;
     [SerializeField] private float brakeForce = 300f;
     [SerializeField] private float maxTurnangle = 35f;
     [SerializeField] private float currentAcceleration = 0f;
@@ -78,9 +81,26 @@ public class CarManager : MonoBehaviour
         Burner = GameObject.Find("Burner").GetComponent<FuelManager>();
         Boiler = GameObject.Find("Boiler").GetComponent<FuelManager>();
         WaterTank = GameObject.Find("WaterTank").GetComponent<FuelManager>();
-        
+
         player = FindAnyObjectByType<PlayerMovement>();
     }
+
+    public void Update()
+    {
+        if (waterTemp >= waterBoilinglevel)
+        {
+            producingSteam = true;
+            StartCoroutine(ProduceSteam());
+            
+        }
+        if (currentSteampressure >= optimalSteampressure)
+        {
+            canDrive = true;
+        }
+    }
+    
+
+    
     public void InsertFuel()
     {
         fuelscript = player.fuelContainer;
@@ -107,57 +127,57 @@ public class CarManager : MonoBehaviour
     {
         while (isHeating && fuelAmount > 0 && waterLevel > 0)
         {
-            // Calculate the change in fuel and water heat over time
             float fuelChange = Time.deltaTime * burnRate;
             float waterHeatChange = Time.deltaTime * heatRate;
-
-            // Burn fuel
             fuelAmount -= fuelChange;
-
-            // Convert water level to water heat
             waterTemp = Mathf.Lerp(waterTemp, waterTemp + waterHeatChange, Time.deltaTime * currentWaterLerpSpeed);
 
-            // Check if water temperature exceeds boiling level
             if (waterTemp >= waterBoilinglevel)
             {
-                waterLevel -= waterHeatChange * waterConsumption; // Adjust water consumption factor
+                waterLevel -= waterHeatChange * waterConsumption;
             }
             else
             {
-                // If not boiling, decrease water level gradually
+
                 waterLevel -= Mathf.Lerp(0, waterHeatChange * waterConsumption, Time.deltaTime * currentWaterLerpSpeed);
             }
 
-            // Update UI
             Burner.UpdateFuelStatus();
             WaterTank.UpdateWaterStatus();
             Boiler.UpdateBoilerStatus();
-
-            // Increase current water lerp speed gradually until max value
             currentWaterLerpSpeed = Mathf.Min(currentWaterLerpSpeed + Time.deltaTime * lerpSpeedIncrement, maxWaterLerpSpeed);
-
-            yield return null; // Wait for the next frame
+            yield return null;
         }
 
-        // If heating stops, slowly decrease water temperature
         while (!isHeating && waterTemp > 0)
         {
-            waterTemp -= Time.deltaTime * cooldownRate; // Adjust cooldown rate as needed
+            waterTemp -= Time.deltaTime * cooldownRate;
             Boiler.UpdateBoilerStatus();
             yield return null;
         }
 
-        // If fuel or water runs out, stop heating
         fuelAmount = Mathf.Max(0, fuelAmount);
         isHeating = false;
+
+        
     }
 
+    public IEnumerator ProduceSteam()
+    {
+        while (waterTemp >= waterBoilinglevel && producingSteam && currentSteampressure <= maxSteampressure)
+        {
+            currentSteampressure += steamProductionrate * Time.deltaTime;
 
+            if (currentSteampressure > maxSteampressure)
+            {
+                Debug.Log("Your boiler is about to blow");
+                
+                producingSteam = false;
+            }
 
-
-
-
-
+            yield return null;
+        }
+    }
 
     public void InsertWater()
     {
@@ -183,32 +203,32 @@ public class CarManager : MonoBehaviour
     {
         isHeating = true;
         StartCoroutine(HeatWater());
-        
-        
-       
     }
 
-    
+
     public void StartIgnition()
     {
         if (currentSteampressure >= optimalSteampressure && fuelAmount >= 75)
         {
             engineRunning = true;
             Debug.Log("Running");
-            
+
         }
     }
     private void FixedUpdate()
     {
-        
+
         if (canDrive)
         {
+
+
+
             currentAcceleration = acceleration * Input.GetAxis("Vertical");
 
             if (Input.GetKey(KeyCode.Space))
             {
                 currentBrakeForce = brakeForce;
-                    
+
             }
             else
             {
@@ -216,8 +236,6 @@ public class CarManager : MonoBehaviour
             }
             RearRight.motorTorque = currentAcceleration;
             RearLeft.motorTorque = currentAcceleration;
-            FrontLeft.motorTorque = currentAcceleration;
-            FrontRight.motorTorque = currentAcceleration;
 
 
             FrontRight.brakeTorque = currentBrakeForce;
@@ -225,16 +243,17 @@ public class CarManager : MonoBehaviour
             RearRight.brakeTorque = currentBrakeForce;
             RearLeft.brakeTorque = currentBrakeForce;
 
-            currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
-            FrontLeft.steerAngle = currentTurnangle;
-            FrontRight.steerAngle = currentTurnangle;
+
             UpdateWheel(FrontLeft, wFL);
             UpdateWheel(FrontRight, wFR);
             UpdateWheel(RearLeft, wRL);
             UpdateWheel(RearRight, wRR);
         }
+        currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
+        FrontLeft.steerAngle = currentTurnangle;
+        FrontRight.steerAngle = currentTurnangle;
     }
-    
+
     private void UpdateWheel(WheelCollider col, Transform trans)
     {
         if (trans == null) return;

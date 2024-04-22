@@ -138,18 +138,19 @@ public class PlayerInteractions : MonoBehaviour
             transform.position = carManager.exitPos.position;
             player.capsuleCollider.enabled = true;
             drivingCar = false;
+            player.characterController.enabled = true;
         }
 
     }
 
     public void EnterCar()
     {
+        player.characterController.enabled = false;
         drivingCar = true;
         player.capsuleCollider.enabled = false;
         player.canMove = false;
         transform.position = carManager.seatingPos.transform.position;
         transform.parent = carManager.seatingPos.transform;
-        carManager.canDrive = true;
 
     }
 }
