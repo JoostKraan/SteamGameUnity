@@ -219,56 +219,46 @@ public class CarManager : MonoBehaviour
     {
         if (canDrive)
         {
-            currentAcceleration = acceleration * Input.GetAxis("Vertical");
+            // Calculate motor torque based on acceleration input
+            float accelerationInput = Input.GetAxis("Vertical");
+            float motorTorque = accelerationInput > 0 ? acceleration * accelerationInput : 0f;
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                currentBrakeForce = brakeForce;
+            // Calculate brake torque based on space key input
+            float brakeTorque = Input.GetKey(KeyCode.Space) ? brakeForce : 0f;
 
-            }
-            else
-            {
-                currentBrakeForce = 0f;
-            }
-            RearRight.motorTorque = currentAcceleration;
-            RearLeft.motorTorque = currentAcceleration;
+            // Set motor torque to rear wheels
+            RearRight.motorTorque = motorTorque;
+            RearLeft.motorTorque = motorTorque;
 
+            // Apply brake torque to all wheels
+            FrontRight.brakeTorque = brakeTorque;
+            FrontLeft.brakeTorque = brakeTorque;
+            RearRight.brakeTorque = brakeTorque;
+            RearLeft.brakeTorque = brakeTorque;
 
-            FrontRight.brakeTorque = currentBrakeForce;
-            FrontLeft.brakeTorque = currentBrakeForce;
-            RearRight.brakeTorque = currentBrakeForce;
-            RearLeft.brakeTorque = currentBrakeForce;
-
-
+            // Update wheel positions
             UpdateWheel(FrontLeft, wFL);
             UpdateWheel(FrontRight, wFR);
             UpdateWheel(RearLeft, wRL);
             UpdateWheel(RearRight, wRR);
         }
+        else
+        {
+            // If the car can't drive, set motor torque and brake torque to zero
+            RearRight.motorTorque = 0f;
+            RearLeft.motorTorque = 0f;
+            FrontRight.brakeTorque = 0f;
+            FrontLeft.brakeTorque = 0f;
+            RearRight.brakeTorque = 0f;
+            RearLeft.brakeTorque = 0f;
+        }
 
+        // Adjust steering angle
         currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
         FrontLeft.steerAngle = currentTurnangle;
         FrontRight.steerAngle = currentTurnangle;
-
-        // Adjust acceleration based on steam pressure
-        acceleration = Mathf.Clamp(currentSteampressure, 0, optimalSteampressure);
-
-        // Apply acceleration
-        RearRight.motorTorque = acceleration;
-        RearLeft.motorTorque = acceleration;
-
-        // Apply brake force
-        FrontRight.brakeTorque = currentBrakeForce;
-        FrontLeft.brakeTorque = currentBrakeForce;
-        RearRight.brakeTorque = currentBrakeForce;
-        RearLeft.brakeTorque = currentBrakeForce;
-
-        // Update wheel positions
-        UpdateWheel(FrontLeft, wFL);
-        UpdateWheel(FrontRight, wFR);
-        UpdateWheel(RearLeft, wRL);
-        UpdateWheel(RearRight, wRR);
     }
+
 
 
     private void UpdateWheel(WheelCollider col, Transform trans)
