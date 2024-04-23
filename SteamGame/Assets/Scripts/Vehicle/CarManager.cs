@@ -23,31 +23,30 @@ public class CarManager : MonoBehaviour
     [SerializeField] public bool canDrive = false;
     [SerializeField] private bool engineRunning = false;
     [SerializeField] public bool isHeating = false; //if the burner is burning fuel and generating heat for the boiler
-    [SerializeField] public bool producingSteam = false;
+    private bool producingSteam = false;
     [Header("Steam")]
     private float maxSteampressure = 1000f;
     private float steamProductionrate = 0.002f;
-    [SerializeField] private float optimalSteampressure = 350f; //
+    private float optimalSteampressure = 350f; //
     [SerializeField] private float currentSteampressure = 0; //kPa
 
     [Header("Water")]
     [SerializeField] public float waterTemp = 0f; //Celcius
     [SerializeField] public float waterLevel = 100f; //current water level
-    [SerializeField] private float waterBoilinglevel = 100f; // at this level steam is produced
+    private float waterBoilinglevel = 100f; // at this level steam is produced
     [HideInInspector] public float remainingWater = 0f; //temporary value for calculating remaining water when container has more that the max storage
     private float currentWaterLerpSpeed = 0f;
     private float maxWaterLerpSpeed = 35f;
     private float lerpSpeedIncrement = 2;
     private float waterConsumption = 0.02f;
     private float heatRate = 10f;
-    private float maxWaterlevel = 110f;
-    public float cooldownRate = 0.2f;
+    private float maxWaterlevel = 90f;
+    private float cooldownRate = 0.2f;
 
     [Header("Fuel")]
-
-    [SerializeField] public float burnRate = 1;
-    [SerializeField] private float maxfuelAmount = 100f;
     [SerializeField] public float fuelAmount = 100f; //megaJoules
+    private float burnRate = 0.02f;
+    [SerializeField] private float maxfuelAmount = 100f;
     [HideInInspector] public float remainingFuel = 0f;
 
     [Header("Transforms")]
@@ -219,22 +218,39 @@ public class CarManager : MonoBehaviour
     {
         if (canDrive)
         {
-            // Calculate motor torque based on acceleration input
-            float accelerationInput = Input.GetAxis("Vertical");
-            float motorTorque = accelerationInput > 0 ? acceleration * accelerationInput : 0f;
+          
+            float steamInfluence = Mathf.Clamp(currentSteampressure / optimalSteampressure, 0f, 1f); 
+            float steamModifiedAcceleration = acceleration * steamInfluence;
+            float userInputAcceleration = Input.GetAxis("Vertical");
+            float combinedAcceleration = Mathf.Min(steamModifiedAcceleration, 125) * userInputAcceleration;
 
-            // Calculate brake torque based on space key input
-            float brakeTorque = Input.GetKey(KeyCode.Space) ? brakeForce : 0f;
+            currentAcceleration = combinedAcceleration;
 
-            // Set motor torque to rear wheels
-            RearRight.motorTorque = motorTorque;
-            RearLeft.motorTorque = motorTorque;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentBrakeForce = brakeForce;
+            }
+            else
+            {
+                currentBrakeForce = 0f;
+            }
 
-            // Apply brake torque to all wheels
-            FrontRight.brakeTorque = brakeTorque;
-            FrontLeft.brakeTorque = brakeTorque;
-            RearRight.brakeTorque = brakeTorque;
-            RearLeft.brakeTorque = brakeTorque;
+            // Apply the modified acceleration to all wheels
+            RearRight.motorTorque = currentAcceleration;
+            RearLeft.motorTorque = currentAcceleration;
+            FrontLeft.motorTorque = currentAcceleration;
+            FrontRight.motorTorque = currentAcceleration;
+
+            // Apply brake force
+            FrontRight.brakeTorque = currentBrakeForce;
+            FrontLeft.brakeTorque = currentBrakeForce;
+            RearRight.brakeTorque = currentBrakeForce;
+            RearLeft.brakeTorque = currentBrakeForce;
+
+            // Steering
+            currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
+            FrontLeft.steerAngle = currentTurnangle;
+            FrontRight.steerAngle = currentTurnangle;
 
             // Update wheel positions
             UpdateWheel(FrontLeft, wFL);
@@ -242,22 +258,11 @@ public class CarManager : MonoBehaviour
             UpdateWheel(RearLeft, wRL);
             UpdateWheel(RearRight, wRR);
         }
-        else
-        {
-            // If the car can't drive, set motor torque and brake torque to zero
-            RearRight.motorTorque = 0f;
-            RearLeft.motorTorque = 0f;
-            FrontRight.brakeTorque = 0f;
-            FrontLeft.brakeTorque = 0f;
-            RearRight.brakeTorque = 0f;
-            RearLeft.brakeTorque = 0f;
-        }
-
-        // Adjust steering angle
-        currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
-        FrontLeft.steerAngle = currentTurnangle;
-        FrontRight.steerAngle = currentTurnangle;
     }
+
+
+
+
 
 
 

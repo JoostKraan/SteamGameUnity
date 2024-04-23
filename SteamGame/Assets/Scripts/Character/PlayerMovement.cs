@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,17 +33,21 @@ public class PlayerMovement : MonoBehaviour
     private CarManager car;
     [HideInInspector]public CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
-    private Dictionary<string, string> itemPrefabs = new Dictionary<string, string>();
+
+    private bool isZoomed = false;
+    private float zoomFOV = 18f; 
+    private float normalFOV; 
+    public float zoomSmoothTime = 0.2f; 
+    private Coroutine zoomCoroutine;
 
     void Start()
     {
         capsuleCollider = GetComponentInChildren<CapsuleCollider>();
-        itemPrefabs.Add("Tire", "TireSpot");
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
-        car = FindObjectOfType<CarManager>(); 
+        car = FindObjectOfType<CarManager>();
+        normalFOV = Camera.main.fieldOfView;
     }
 
     void Update()
@@ -111,6 +116,48 @@ public class PlayerMovement : MonoBehaviour
 
         if (!characterController.isGrounded)
             moveDirection.y -= gravity * Time.deltaTime;
+
+        if (Input.GetMouseButtonDown(1)) // Right mouse button
+        {
+            ToggleZoom();
+        }
+    }
+
+    void ToggleZoom()
+    {
+        isZoomed = !isZoomed; // Toggle zoom state
+
+        if (isZoomed)
+        {
+            // Zoom in
+            if (zoomCoroutine != null)
+                StopCoroutine(zoomCoroutine);
+
+            zoomCoroutine = StartCoroutine(SmoothZoom(zoomFOV));
+        }
+        else
+        {
+            // Zoom out
+            if (zoomCoroutine != null)
+                StopCoroutine(zoomCoroutine);
+
+            zoomCoroutine = StartCoroutine(SmoothZoom(normalFOV));
+        }
+    }
+
+    IEnumerator SmoothZoom(float targetFOV)
+    {
+        float currentFOV = Camera.main.fieldOfView;
+        float velocity = 0f;
+
+        while (Mathf.Abs(currentFOV - targetFOV) > 0.01f)
+        {
+            currentFOV = Mathf.SmoothDamp(currentFOV, targetFOV, ref velocity, zoomSmoothTime);
+            Camera.main.fieldOfView = currentFOV;
+            yield return null;
+        }
+
+        Camera.main.fieldOfView = targetFOV;
     }
 
     private void PickupItem()

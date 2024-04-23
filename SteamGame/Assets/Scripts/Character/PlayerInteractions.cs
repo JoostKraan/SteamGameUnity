@@ -9,7 +9,6 @@ public class PlayerInteractions : MonoBehaviour
 {
     private CarManager carManager;
     private PlayerMovement player;
-    private PhysicalButton button;
     private FuelManager fuel;
     public Transform playerT;
     public bool drivingCar = false;
