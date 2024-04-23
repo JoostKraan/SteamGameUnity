@@ -25,14 +25,14 @@ public class CarManager : MonoBehaviour
     [SerializeField] public bool isHeating = false; //if the burner is burning fuel and generating heat for the boiler
     [SerializeField] public bool producingSteam = false;
     [Header("Steam")]
-    private float maxSteampressure = 1500f;
-    public float steamProductionrate = 0.003f;
-    [SerializeField] private float optimalSteampressure = 800; //
+    private float maxSteampressure = 1000f;
+    private float steamProductionrate = 0.002f;
+    [SerializeField] private float optimalSteampressure = 350f; //
     [SerializeField] private float currentSteampressure = 0; //kPa
 
     [Header("Water")]
     [SerializeField] public float waterTemp = 0f; //Celcius
-    [SerializeField] public float waterLevel = 0f; //current water level
+    [SerializeField] public float waterLevel = 100f; //current water level
     [SerializeField] private float waterBoilinglevel = 100f; // at this level steam is produced
     [HideInInspector] public float remainingWater = 0f; //temporary value for calculating remaining water when container has more that the max storage
     private float currentWaterLerpSpeed = 0f;
@@ -47,7 +47,7 @@ public class CarManager : MonoBehaviour
 
     [SerializeField] public float burnRate = 1;
     [SerializeField] private float maxfuelAmount = 100f;
-    [SerializeField] public float fuelAmount = 0f; //megaJoules
+    [SerializeField] public float fuelAmount = 100f; //megaJoules
     [HideInInspector] public float remainingFuel = 0f;
 
     [Header("Transforms")]
@@ -217,12 +217,8 @@ public class CarManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
         if (canDrive)
         {
-
-
-
             currentAcceleration = acceleration * Input.GetAxis("Vertical");
 
             if (Input.GetKey(KeyCode.Space))
@@ -249,10 +245,31 @@ public class CarManager : MonoBehaviour
             UpdateWheel(RearLeft, wRL);
             UpdateWheel(RearRight, wRR);
         }
+
         currentTurnangle = maxTurnangle * Input.GetAxis("Horizontal");
         FrontLeft.steerAngle = currentTurnangle;
         FrontRight.steerAngle = currentTurnangle;
+
+        // Adjust acceleration based on steam pressure
+        acceleration = Mathf.Clamp(currentSteampressure, 0, optimalSteampressure);
+
+        // Apply acceleration
+        RearRight.motorTorque = acceleration;
+        RearLeft.motorTorque = acceleration;
+
+        // Apply brake force
+        FrontRight.brakeTorque = currentBrakeForce;
+        FrontLeft.brakeTorque = currentBrakeForce;
+        RearRight.brakeTorque = currentBrakeForce;
+        RearLeft.brakeTorque = currentBrakeForce;
+
+        // Update wheel positions
+        UpdateWheel(FrontLeft, wFL);
+        UpdateWheel(FrontRight, wFR);
+        UpdateWheel(RearLeft, wRL);
+        UpdateWheel(RearRight, wRR);
     }
+
 
     private void UpdateWheel(WheelCollider col, Transform trans)
     {

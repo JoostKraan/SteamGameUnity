@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -45,6 +46,7 @@ public class PlayerInteractions : MonoBehaviour
 
             if (hit.collider.CompareTag("StartButton"))
             {
+
                 carManager.StartIgnition();
             }
 
@@ -118,11 +120,6 @@ public class PlayerInteractions : MonoBehaviour
                             PlayerMovement.slotFull = false;
                         }
                     }
-
-
-
-
-
                 }
             }
         }
@@ -130,9 +127,9 @@ public class PlayerInteractions : MonoBehaviour
 
     public void ExitCar()
     {
-
         if (drivingCar)
         {
+            carManager.canDrive = false;
             player.canMove = true;
             transform.parent = null;
             transform.position = carManager.exitPos.position;
@@ -142,9 +139,9 @@ public class PlayerInteractions : MonoBehaviour
         }
 
     }
-
     public void EnterCar()
     {
+        carManager.canDrive = true;
         player.characterController.enabled = false;
         drivingCar = true;
         player.capsuleCollider.enabled = false;
